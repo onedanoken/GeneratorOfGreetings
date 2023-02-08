@@ -1,4 +1,4 @@
-﻿using Microsoft.Office.Interop.Excel;
+using Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
@@ -159,6 +159,16 @@ namespace lab1
 
         public static List<Triads> CreateTriads(List<List<string>> greetings, int n)
         {
+            // Словарь для использованных поздравлений. False - поздравление не использовано
+            Dictionary<string, bool> usedGreetings = new Dictionary<string, bool>();
+            foreach (var categories in greetings)
+            {
+                foreach (var g in categories)
+                {
+                    usedGreetings.Add((string)g, false); 
+                }
+            }
+
             Random rnd = new Random();
             List<Triads> triads = new List<Triads>();
             int gCount = greetings.Count - 1;
@@ -177,6 +187,7 @@ namespace lab1
                 int j1 = rnd.Next(lst1.Count - 1);
                 int j2 = rnd.Next(lst2.Count - 1);
                 int j3 = rnd.Next(lst3.Count - 1);
+                if (usedGreetings[lst1[j1]] == true || usedGreetings[lst2[j2]] == true || usedGreetings[lst3[j3]] == true) { continue; }
                 Triads triada = new Triads(lst1[j1], lst2[j2], lst3[j3]);
 
                 if (triads.Contains(triada))
