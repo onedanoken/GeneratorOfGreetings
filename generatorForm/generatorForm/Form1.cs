@@ -10,6 +10,8 @@ namespace generatorForm
         public Form1()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)

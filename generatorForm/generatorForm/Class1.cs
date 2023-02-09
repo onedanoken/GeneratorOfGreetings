@@ -197,13 +197,15 @@ namespace generatorForm
             }
 
             // Словарь для использованных поздравлений. False - поздравление не использовано
-            Dictionary<string, bool> usedGreetings = new Dictionary<string, bool>();
+            List<Dictionary<string, bool>> usedGreetings = new List<Dictionary<string, bool>>();
             foreach (var categories in greetings)
             {
+                Dictionary<string, bool> tmp= new Dictionary<string, bool>();
                 foreach (var g in categories)
                 {
-                    usedGreetings.Add((string)g, false);
+                    tmp.Add((string)g, false);
                 }
+                usedGreetings.Add(tmp);
             }
 
             Random rnd = new Random();
@@ -224,7 +226,9 @@ namespace generatorForm
                 int j1 = rnd.Next(lst1.Count - 1);
                 int j2 = rnd.Next(lst2.Count - 1);
                 int j3 = rnd.Next(lst3.Count - 1);
-                if (usedGreetings[lst1[j1]] == true || usedGreetings[lst2[j2]] == true || usedGreetings[lst3[j3]] == true) { continue; }
+                if (usedGreetings[index1][lst1[j1]] == true || usedGreetings[index2][lst2[j2]] == true 
+                    || usedGreetings[index3][lst3[j3]] == true) { continue; }
+
                 Triads triada = new Triads(lst1[j1], lst2[j2], lst3[j3]);
 
                 if (triads.Contains(triada))
@@ -233,6 +237,19 @@ namespace generatorForm
                 }
                 triads.Add(triada);
 
+                // Проверка на то, что в категории использовались все поздравления.
+                foreach (var category in usedGreetings)
+                {
+                    int count = 0; // кол-во использованных
+                    foreach (var greeting in category)
+                    {
+                        if (greeting.Value == true) { count += 1; }
+                    }
+                    if (count == category.Count) // Если все использованы - меняем на false
+                    {
+                        foreach (var key in category)  { category[key.Key] = false; }
+                    }
+                }
             }
             return triads;
         }
