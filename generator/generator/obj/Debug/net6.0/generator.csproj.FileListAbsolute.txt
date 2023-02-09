@@ -36,3 +36,39 @@ D:\PSU\4 SEMESTR\SIYAP\labs\laba1\generator\generator\obj\Debug\net6.0\refint\ge
 D:\PSU\4 SEMESTR\SIYAP\labs\laba1\generator\generator\obj\Debug\net6.0\generator.pdb
 D:\PSU\4 SEMESTR\SIYAP\labs\laba1\generator\generator\obj\Debug\net6.0\generator.genruntimeconfig.cache
 D:\PSU\4 SEMESTR\SIYAP\labs\laba1\generator\generator\obj\Debug\net6.0\ref\generator.dll
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\bin\Debug\net6.0\generator.exe
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\bin\Debug\net6.0\generator.deps.json
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\bin\Debug\net6.0\generator.runtimeconfig.json
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\bin\Debug\net6.0\generator.dll
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\bin\Debug\net6.0\generator.pdb
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\obj\Debug\net6.0\generator.csproj.AssemblyReference.cache
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\obj\Debug\net6.0\Interop.Microsoft.Office.Interop.Excel.dll
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\obj\Debug\net6.0\Interop.Microsoft.Office.Interop.Word.dll
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\obj\Debug\net6.0\generator.csproj.ResolveComReference.cache
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\obj\Debug\net6.0\generator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\obj\Debug\net6.0\generator.AssemblyInfoInputs.cache
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\obj\Debug\net6.0\generator.AssemblyInfo.cs
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\obj\Debug\net6.0\generator.csproj.CoreCompileInputs.cache
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\obj\Debug\net6.0\generator.dll
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\obj\Debug\net6.0\refint\generator.dll
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\obj\Debug\net6.0\generator.pdb
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\obj\Debug\net6.0\generator.genruntimeconfig.cache
+C:\Users\Пользователь\OneDrive\laba1\generator\generator\obj\Debug\net6.0\ref\generator.dll
+C:\СЯиТП\лаба 1\generator\generator\bin\Debug\net6.0\generator.exe
+C:\СЯиТП\лаба 1\generator\generator\bin\Debug\net6.0\generator.deps.json
+C:\СЯиТП\лаба 1\generator\generator\bin\Debug\net6.0\generator.runtimeconfig.json
+C:\СЯиТП\лаба 1\generator\generator\bin\Debug\net6.0\generator.dll
+C:\СЯиТП\лаба 1\generator\generator\bin\Debug\net6.0\generator.pdb
+C:\СЯиТП\лаба 1\generator\generator\obj\Debug\net6.0\generator.csproj.AssemblyReference.cache
+C:\СЯиТП\лаба 1\generator\generator\obj\Debug\net6.0\Interop.Microsoft.Office.Interop.Excel.dll
+C:\СЯиТП\лаба 1\generator\generator\obj\Debug\net6.0\Interop.Microsoft.Office.Interop.Word.dll
+C:\СЯиТП\лаба 1\generator\generator\obj\Debug\net6.0\generator.csproj.ResolveComReference.cache
+C:\СЯиТП\лаба 1\generator\generator\obj\Debug\net6.0\generator.GeneratedMSBuildEditorConfig.editorconfig
+C:\СЯиТП\лаба 1\generator\generator\obj\Debug\net6.0\generator.AssemblyInfoInputs.cache
+C:\СЯиТП\лаба 1\generator\generator\obj\Debug\net6.0\generator.AssemblyInfo.cs
+C:\СЯиТП\лаба 1\generator\generator\obj\Debug\net6.0\generator.csproj.CoreCompileInputs.cache
+C:\СЯиТП\лаба 1\generator\generator\obj\Debug\net6.0\generator.dll
+C:\СЯиТП\лаба 1\generator\generator\obj\Debug\net6.0\refint\generator.dll
+C:\СЯиТП\лаба 1\generator\generator\obj\Debug\net6.0\generator.pdb
+C:\СЯиТП\лаба 1\generator\generator\obj\Debug\net6.0\generator.genruntimeconfig.cache
+C:\СЯиТП\лаба 1\generator\generator\obj\Debug\net6.0\ref\generator.dll

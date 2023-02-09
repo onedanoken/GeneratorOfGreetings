@@ -50,17 +50,34 @@ namespace generatorForm
 
     class WorkWithFiles
     {
-        public static void Start()
+        public static int Start()
         {
+            int code = 0; // по умолчанию ноль - всё хорошо;
             string fileName = @"C:\СЯиТП\лаба 1\input.xlsx"; // путь к конфигу
             List<People> names = null;
             List<List<string>> greetings = null;
             List<Triads> triads = null;
             names = LoadNamesFromExcel(fileName);
+            if (names == null)
+            {
+                code = 1; // 1 - проблема с открытием файла excel;
+                return code;
+            }
             greetings = LoadGreetingsFromExcel(fileName);
+            if (greetings == null)
+            {
+                code = 1; 
+                return code;
+            }
             int n = names.Count;
             triads = CreateTriads(greetings, n);
-            ExportToWord(names, triads, fileName);
+            if (triads == null)
+            {
+                code = 2; // 2 - проблема с создание триад - нехватка поздравлений;
+                return code;
+            }
+            code = ExportToWord(names, triads, fileName);
+            return code;
         }
 
         public static List<People> LoadNamesFromExcel(string fileName)
@@ -75,7 +92,7 @@ namespace generatorForm
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                return null;
             }
 
             Excel.Worksheet sheetNames = wbk.Worksheets[1]; // Получить доступ к именам
@@ -117,7 +134,7 @@ namespace generatorForm
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                return null;
             }
 
             Excel.Worksheet sheetNames = wbk.Worksheets[2]; // получить доступ к поздравлениям
@@ -159,6 +176,26 @@ namespace generatorForm
 
         public static List<Triads> CreateTriads(List<List<string>> greetings, int n)
         {
+            // Проверка количества составить триады.
+            int maxCountTriad = 0;
+            for (int i = 0; i < greetings.Count - 2; ++i)
+            {
+                for (int j = i + 1; j < greetings.Count - 1; ++j)
+                {
+                    for (int k = j + 1; k < greetings.Count; ++k)
+                    {
+                        maxCountTriad += 
+                            greetings[i].Count *
+                            greetings[j].Count *
+                            greetings[k].Count;
+                    }
+                }
+            }
+            if (maxCountTriad < n)
+            {
+                return null; // Если триад не хватает - уведомляем пользователя об этом.
+            }
+
             // Словарь для использованных поздравлений. False - поздравление не использовано
             Dictionary<string, bool> usedGreetings = new Dictionary<string, bool>();
             foreach (var categories in greetings)
@@ -201,113 +238,120 @@ namespace generatorForm
         }
 
 
-        public static void ExportToWord(List<People> names, List<Triads> triads, string fileNameExcel)
+        public static int ExportToWord(List<People> names, List<Triads> triads, string fileNameExcel)
         {
-            Word.Application word = null;
-            Word.Document originalDoc = null;
-            Word.Document newDoc = null;
-
-            //Console.WriteLine("Идёт генерация...");
-            //Console.WriteLine("Пожалуйста, подождите.");
-
-            // Работа с Excel
-            Excel.Application excel = null;
-            Excel.Workbook wbk = null;
-
             try
             {
+                Word.Application word = null;
+                Word.Document originalDoc = null;
+                Word.Document newDoc = null;
+
+                //Console.WriteLine("Идёт генерация...");
+                //Console.WriteLine("Пожалуйста, подождите.");
+
+                // Работа с Excel
+                Excel.Application excel = null;
+                Excel.Workbook wbk = null;
+
                 excel = new Excel.Application();
                 wbk = excel.Workbooks.Open(fileNameExcel);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            Excel.Worksheet sheetNames = wbk.Worksheets[3]; // Получить доступ к конфигу
+               
+                Excel.Worksheet sheetNames = wbk.Worksheets[3]; // Получить доступ к конфигу
 
-            // Получаем доступ к шаблону и выходной директории и шрифту
-            string originalFile = (sheetNames.Cells[4, 2]).Value2; // путь к шаблону
-            string path = (sheetNames.Cells[5, 2]).Value2; // путь к папке out
-            var fontName = (sheetNames.Cells[3, 2]).Value2; // путь к шрифту
+                // Получаем доступ к шаблону и выходной директории и шрифту
+                string originalFile = (sheetNames.Cells[4, 2]).Value2; // путь к шаблону
+                string path = (sheetNames.Cells[5, 2]).Value2; // путь к папке out
+                var fontName = (sheetNames.Cells[3, 2]).Value2; // путь к шрифту
 
-            // Проверка наличия выходной директории
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
+                // Проверка наличия выходной директории
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
 
-            word = new Word.Application();
+                word = new Word.Application();
 
-            // Создаём выходной файл 
-            string newFileName = "result_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".docx";
-            string newFile = path + "\\" + newFileName;
-            originalDoc = word.Documents.Open(originalFile, Visible: false);
-            newDoc = word.Documents.Add();
-            int count = names.Count;
+                // Создаём выходной файл 
+                string newFileName = "result_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".docx";
+                string newFile = path + "\\" + newFileName;
+                originalDoc = word.Documents.Open(originalFile, Visible: false);
+                newDoc = word.Documents.Add();
+                int count = names.Count;
 
-            var first_bookmark_range = newDoc.Words.Last;
-            first_bookmark_range.Font.Name = fontName;
+                var first_bookmark_range = newDoc.Words.Last;
+                first_bookmark_range.Font.Name = fontName;
 
-            // Генератор поздравлений
-            for (int i = 0; i < count; i++)
-            {
-                originalDoc.Content.FormattedText.Copy();
-                newDoc.Words.Last.Paste();
-                foreach (Word.Bookmark bookmark in newDoc.Bookmarks)
+                // Генератор поздравлений
+                for (int i = 0; i < count; i++)
                 {
-                    string bookmarkName = bookmark.Name;
-                    bookmark.Range.Font.Name = fontName;
-                    bookmark.Range.Font.Size = 14;
-                    switch (bookmarkName)
+                    originalDoc.Content.FormattedText.Copy();
+                    newDoc.Words.Last.Paste();
+                    foreach (Word.Bookmark bookmark in newDoc.Bookmarks)
                     {
-                        case "person_name":
-                            if (names[i].Id == 1)
-                            {
-                                var treatmeant = (sheetNames.Cells[2, 2]).Value2;
-                                bookmark.Range.Text = treatmeant + " " + names[i].Name + "!";
-                            }
-                            else
-                            {
-                                var treatmeant = (sheetNames.Cells[2, 3]).Value2;
-                                bookmark.Range.Text = treatmeant + " " + names[i].Name + "!";
-                            }
-                            break;
-                        case "standart_greeting":
-                            var Event = (sheetNames.Cells[1, 2]).Value2;
-                            bookmark.Range.Text = "Поздравляю вас с " + Event + "!";
-                            break;
-                        case "first_greeting":
-                            bookmark.Range.Text = "Желаю " + triads[i].FirstGreeting + ",";
-                            break;
-                        case "second_greeting":
-                            bookmark.Range.Text = triads[i].SecondGreeting + ",";
-                            break;
-                        default:
-                            bookmark.Range.Text = triads[i].ThirdGreeting;
-                            break;
+                        string bookmarkName = bookmark.Name;
+                        bookmark.Range.Font.Name = fontName;
+                        bookmark.Range.Font.Size = 14;
+                        switch (bookmarkName)
+                        {
+                            case "person_name":
+                                if (names[i].Id == 1)
+                                {
+                                    var treatmeant = (sheetNames.Cells[2, 2]).Value2;
+                                    bookmark.Range.Text = treatmeant + " " + names[i].Name + "!";
+                                }
+                                else
+                                {
+                                    var treatmeant = (sheetNames.Cells[2, 3]).Value2;
+                                    bookmark.Range.Text = treatmeant + " " + names[i].Name + "!";
+                                }
+                                break;
+                            case "standart_greeting":
+                                var Event = (sheetNames.Cells[1, 2]).Value2;
+                                bookmark.Range.Text = "Поздравляю вас с " + Event + "!";
+                                break;
+                            case "first_greeting":
+                                bookmark.Range.Text = "Желаю " + triads[i].FirstGreeting + ",";
+                                break;
+                            case "second_greeting":
+                                bookmark.Range.Text = triads[i].SecondGreeting + ",";
+                                break;
+                            default:
+                                bookmark.Range.Text = triads[i].ThirdGreeting;
+                                break;
+                        }
+                    }
+                    if (i != count - 1)
+                    {
+                        newDoc.Words.Last.InsertBreak(WdBreakType.wdPageBreak);
                     }
                 }
-                if (i != count - 1)
+                newDoc.SaveAs2(newFile);
+                newDoc.Close();
+
+                // Подчищаем данные
+
+                if (word != null)
                 {
-                    newDoc.Words.Last.InsertBreak(WdBreakType.wdPageBreak);
+                    word.Quit();
                 }
+
+                if (excel != null)
+                {
+                    excel.Quit();
+                }
+
+                Process[] prc;
+                prc = Process.GetProcessesByName("EXCEL");
+                foreach (Process proc in prc)
+                {
+                    proc.Kill();
+                }
+
+                //Console.WriteLine("Генерация завершена успешно!");
+                return 0;
             }
-            newDoc.SaveAs2(newFile);
-            newDoc = word.Documents.Open(newFile, Visible: true);
-
-            // Подчищаем данные
-
-            if (excel != null)
+            catch(Exception ex)
             {
-                excel.Quit();
+                return 3; // 3 - Проблема с загрузкой в word
             }
-
-            Process[] prc;
-            prc = Process.GetProcessesByName("EXCEL");
-            foreach (Process proc in prc)
-            {
-                proc.Kill();
-            }
-
-            //Console.WriteLine("Генерация завершена успешно!");
         }
     }
 }
